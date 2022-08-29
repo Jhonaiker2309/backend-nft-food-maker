@@ -9,7 +9,7 @@ app.use(cors())
 
 let currentId = 0;
 
-var whitelist = [process.env.FRONT_END_URL]
+var whitelist = ["https://deft-starlight-7e21c8.netlify.app"]
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
