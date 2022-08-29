@@ -9,13 +9,24 @@ app.use(cors())
 
 let currentId = 0;
 
-app.get("/foodData", async (req, res) => {
+var whitelist = [process.env.FRONT_END_URL]
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.get("/foodData",cors(corsOptions), async (req, res) => {
     const {searchedData} = req.query 
     const result = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY_FOOD}&query=${searchedData}`)
     res.send(result.data.results)
 })
 
-app.post("/mintNft", async (req, res) => {
+app.post("/mintNft",cors(corsOptions),async (req, res) => {
     const {encodedData, currentAccount} = req.query
     currentId++
     if(encodedData && currentAccount){
@@ -33,3 +44,5 @@ app.post("/mintNft", async (req, res) => {
 })
 
 app.listen(8000, () => console.log(`Server is running on port ${PORT}`))
+
+module.exports = app;
