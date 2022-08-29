@@ -17,7 +17,7 @@ var corsOptions = {
     } else {
       callback(new Error('Not allowed by CORS'))
     }
-  }
+  } 
 }
 
 app.get("/foodData",cors(corsOptions), async (req, res) => {
